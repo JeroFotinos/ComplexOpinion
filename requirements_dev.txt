@@ -1,0 +1,25 @@
+tox
+
+ipdb
+
+pytest
+pytest-ordering
+unittest.mock  # este no, lo dejo para acordarme nomás pero viene ya
+
+flake8
+flake8-import-order
+flake8-black
+flake8-builtins
+flake8-isort
+pep8-naming
+
+black
+isort
+
+coverage
+pytest-cov
+
+pydocstyle
+toml
+
+joblib
