@@ -58,7 +58,7 @@ def small_world_society():
     N = 500
     k = 5
     p = 0.01
-    G = nx.watts_strogatz_graph(N, k, p, seed=896803)
+    G = nx.watts_strogatz_graph(N, k, p, seed=896803)  # 896803
     small_world_society = Opinion_Model(G)
     return small_world_society
 

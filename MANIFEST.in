@@ -6,10 +6,9 @@ recursive-include complex_opinion *.py
 recursive-include complex_opinion *.f90
 recursive-include examples *
 
-recursive-exculde complex_opinion *.so
+include complex_opinion *.so
 exclude complex_opinion/f90opinion.so
 exclude requirements_dev.txt
-exclude opinion.ipynb
 exclude tox.ini
 
 recursive-exclude tests *

@@ -99,8 +99,8 @@ class Opinion_Model:
         for initial_condition in range(number_of_initial_conditions):
 
             # inicializo los estados; seed?
-            fpb.states = np.random.randint(2, size=N)
-
+            in_cond = np.random.randint(2, size=N)
+            
             # loop sobre misma condición inicial, pero
             # distintas evoluciones monte carlo
 
@@ -109,6 +109,7 @@ class Opinion_Model:
             M_vs_mcs_avg_in_cond = np.zeros(num_MC_steps)
 
             for simulation in range(num_sim_per_in_cond):
+                fpb.states = in_cond
                 M_vs_mcs_simulation = fpb.opinion_dynamics(num_MC_steps)
                 for i in range(num_MC_steps):
                     M_vs_mcs_avg_in_cond[i] += M_vs_mcs_simulation[i]

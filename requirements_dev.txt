@@ -4,7 +4,6 @@ ipdb
 
 pytest
 pytest-ordering
-unittest.mock  # este no, lo dejo para acordarme nomás pero viene ya
 
 flake8
 flake8-import-order

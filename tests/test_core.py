@@ -19,7 +19,7 @@ def test_zero_edges(zero_edges_graph):
 
 @pytest.mark.xfail
 def test_reproduce_mahdi_simulation(mahdi_simulation, small_world_society):
-    number_of_initial_conditions = 50
+    number_of_initial_conditions = 10
     num_sim_per_in_cond = 1
     num_MC_steps = 10000
 
@@ -27,7 +27,8 @@ def test_reproduce_mahdi_simulation(mahdi_simulation, small_world_society):
     T = 0.2
     p_1 = 1.0
 
-    seed = np.random.randint(2 ** (4 * 7))
+    # seed = np.random.randint( 2 ** ( 4 * 7 ))  # original Mahdi
+    seed = 2 ** ( 4 * 3 ) - 1  # quiero que sea siempre la misma
 
     t, M = small_world_society.opinion_dynamics(
         number_of_initial_conditions,
@@ -39,7 +40,7 @@ def test_reproduce_mahdi_simulation(mahdi_simulation, small_world_society):
         seed,
     )
 
-    assert all(np.isclose(M, mahdi_simulation, rtol=1e-05, atol=1e-01))
+    assert np.allclose(M, mahdi_simulation, rtol=0.01, atol=0.1)
 
 
 # np.isclose documentation:
