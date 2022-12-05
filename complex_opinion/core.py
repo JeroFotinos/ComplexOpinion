@@ -6,7 +6,7 @@ from complex_opinion import f90opinion as fpb  # esta línea reemplaza a la
 import numpy as np
 
 # podría heredar de networkx
-# class Opinion_Model(nx.classes.graph.Graph)
+# class OpinionModel(nx.classes.graph.Graph)
 
 # ¿cómo le paso los métodos y atributos del grafo
 # al modelo de opinión?
@@ -20,11 +20,11 @@ import numpy as np
 
 fpb = fpb.fpb
 # me convendría tener un módulo diferente por objeto? i.e.,
-# ¿conviene que fbp sea un atributo más de los objetos de clase Opinion_Model?
+# ¿conviene que fbp sea un atributo más de los objetos de clase OpinionModel?
 # ¿Cómo me conviene implementar eso?
 
 
-class Opinion_Model:
+class OpinionModel:
     def __init__(self, topology):
         self.topology = topology
 
@@ -69,9 +69,9 @@ class Opinion_Model:
         self,
         number_of_initial_conditions,
         num_sim_per_in_cond,
-        num_MC_steps,
-        H,
-        T,
+        num_mc_steps,
+        h_field,
+        temperature,
         p_1,
         mc_seed,
         initial_cond_seed,
@@ -80,11 +80,11 @@ class Opinion_Model:
         ic_rng = np.random.default_rng(initial_cond_seed)
         # RNG for generating the initial conditions
 
-        mcs = np.zeros(num_MC_steps)
+        mcs = np.zeros(num_mc_steps)
         # Montecarlo steps (time)
-        M_vs_mcs__avg = np.zeros(num_MC_steps)
+        m_vs_mcs__avg = np.zeros(num_mc_steps)
         # average magnetization evolution over initial conditions
-        M_vs_mcs_avg_in_cond = np.zeros(num_MC_steps)
+        m_vs_mcs_avg_in_cond = np.zeros(num_mc_steps)
         # average magnetization evolution over simulations from the
         # same initial condition
 
@@ -94,44 +94,44 @@ class Opinion_Model:
 
         fpb.init(mc_seed)
 
-        N = self.topology.number_of_nodes()
+        number_of_nodes = self.topology.number_of_nodes()
         # M = self.topology.number_of_edges()
 
-        fpb.set_parameters_opinion_dynamics(H, T, p_1)
+        fpb.set_parameters_opinion_dynamics(h_field, temperature, p_1)
 
         # loop sobre distintas condiciones iniciales
         for initial_condition in range(number_of_initial_conditions):
 
             # we initialize the states
             # (the seed was set when instanciating ic_rng)
-            in_cond = ic_rng.integers(2, size=N)
+            in_cond = ic_rng.integers(2, size=number_of_nodes)
 
             # loop sobre misma condición inicial, pero
             # distintas evoluciones monte carlo
 
             # import ipdb; ipdb.set_trace()
 
-            M_vs_mcs_avg_in_cond = np.zeros(num_MC_steps)
+            m_vs_mcs_avg_in_cond = np.zeros(num_mc_steps)
 
             for simulation in range(num_sim_per_in_cond):
                 fpb.states = in_cond
-                M_vs_mcs_simulation = fpb.opinion_dynamics(num_MC_steps)
-                for i in range(num_MC_steps):
-                    M_vs_mcs_avg_in_cond[i] += M_vs_mcs_simulation[i]
+                m_vs_mcs_simulation = fpb.opinion_dynamics(num_mc_steps)
+                for i in range(num_mc_steps):
+                    m_vs_mcs_avg_in_cond[i] += m_vs_mcs_simulation[i]
 
-            for i in range(num_MC_steps):
-                M_vs_mcs_avg_in_cond[i] = (
-                    M_vs_mcs_avg_in_cond[i] / num_sim_per_in_cond
+            for i in range(num_mc_steps):
+                m_vs_mcs_avg_in_cond[i] = (
+                    m_vs_mcs_avg_in_cond[i] / num_sim_per_in_cond
                 )
 
-            for i in range(num_MC_steps):
-                M_vs_mcs__avg[i] += M_vs_mcs_avg_in_cond[i]
+            for i in range(num_mc_steps):
+                m_vs_mcs__avg[i] += m_vs_mcs_avg_in_cond[i]
         # Divide cada elemento por el número de simulaciones para normalizar
-        for i in range(num_MC_steps):
-            M_vs_mcs__avg[i] = M_vs_mcs__avg[i] / number_of_initial_conditions
+        for i in range(num_mc_steps):
+            m_vs_mcs__avg[i] = m_vs_mcs__avg[i] / number_of_initial_conditions
 
         # genera un array con los pasos que sirva como dominio para el plot
-        for i in range(num_MC_steps):
+        for i in range(num_mc_steps):
             mcs[i] = i
 
-        return mcs, M_vs_mcs__avg
+        return mcs, m_vs_mcs__avg
