@@ -4,7 +4,8 @@ include pyproject.toml
 
 recursive-include complex_opinion *.py
 recursive-include complex_opinion *.f90
-recursive-include examples *
+recursive-include complex_opinion *.sh
+recursive-include examples *.ipynb
 
 include complex_opinion *.so
 exclude complex_opinion/f90opinion.so
@@ -12,11 +13,13 @@ exclude requirements_dev.txt
 exclude tox.ini
 
 recursive-exclude tests *
+recursive-exclude data *
 # recursive-exclude docs *
 recursive-exclude complex_opinion.egg-info *
 recursive-exclude .pytest_cache *
 recursive-exclude complex_opinion *.mod
 recursive-exclude .ipynb_checkpoints *
+recursive-exclude examples/.ipynb_checkpoints *
 recursive-exclude __pycache__ *.pyc
 
 exclude .coverage

@@ -73,8 +73,12 @@ class Opinion_Model:
         H,
         T,
         p_1,
-        seed,
+        mc_seed,
+        initial_cond_seed,
     ):
+
+        ic_rng = np.random.default_rng(initial_cond_seed)
+        # RNG for generating the initial conditions
 
         mcs = np.zeros(num_MC_steps)
         # Montecarlo steps (time)
@@ -88,7 +92,7 @@ class Opinion_Model:
         fpb.de_sources = self.de_sources
         fpb.de_targets = self.de_targets
 
-        fpb.init(seed)
+        fpb.init(mc_seed)
 
         N = self.topology.number_of_nodes()
         # M = self.topology.number_of_edges()
@@ -98,9 +102,10 @@ class Opinion_Model:
         # loop sobre distintas condiciones iniciales
         for initial_condition in range(number_of_initial_conditions):
 
-            # inicializo los estados; seed?
-            in_cond = np.random.randint(2, size=N)
-            
+            # we initialize the states
+            # (the seed was set when instanciating ic_rng)
+            in_cond = ic_rng.integers(2, size=N)
+
             # loop sobre misma condición inicial, pero
             # distintas evoluciones monte carlo
 

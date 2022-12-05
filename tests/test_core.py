@@ -17,9 +17,8 @@ def test_zero_edges(zero_edges_graph):
         m = Opinion_Model(zero_edges_graph)
 
 
-@pytest.mark.xfail
-def test_reproduce_mahdi_simulation(mahdi_simulation, small_world_society):
-    number_of_initial_conditions = 10
+def test_reproduce_mahdi_simulation_1(mahdi_simulation_1, small_world_society):
+    number_of_initial_conditions = 1
     num_sim_per_in_cond = 1
     num_MC_steps = 10000
 
@@ -27,8 +26,8 @@ def test_reproduce_mahdi_simulation(mahdi_simulation, small_world_society):
     T = 0.2
     p_1 = 1.0
 
-    # seed = np.random.randint( 2 ** ( 4 * 7 ))  # original Mahdi
-    seed = 2 ** ( 4 * 3 ) - 1  # quiero que sea siempre la misma
+    mc_seed = 2 ** (4 * 3) - 1
+    initial_cond_seed = 12345
 
     t, M = small_world_society.opinion_dynamics(
         number_of_initial_conditions,
@@ -37,17 +36,41 @@ def test_reproduce_mahdi_simulation(mahdi_simulation, small_world_society):
         H,
         T,
         p_1,
-        seed,
+        mc_seed,
+        initial_cond_seed,
     )
 
-    assert np.allclose(M, mahdi_simulation, rtol=0.01, atol=0.1)
+    assert np.allclose(M, mahdi_simulation_1) # rtol=1e-05, atol=1e-08
+
+def test_reproduce_mahdi_simulation_2(mahdi_simulation_2, small_world_society):
+    number_of_initial_conditions = 50
+    num_sim_per_in_cond = 1
+    num_MC_steps = 10000
+
+    H = 0.2
+    T = 0.2
+    p_1 = 1.0
+
+    mc_seed = 2 ** (4 * 3) - 1
+    initial_cond_seed = 12345
+
+    t, M = small_world_society.opinion_dynamics(
+        number_of_initial_conditions,
+        num_sim_per_in_cond,
+        num_MC_steps,
+        H,
+        T,
+        p_1,
+        mc_seed,
+        initial_cond_seed,
+    )
+
+    assert np.allclose(M, mahdi_simulation_2) # rtol=1e-05, atol=1e-08
+
+# np.allclose documentation:
+# https://numpy.org/doc/stable/reference/generated/numpy.allclose.html
 
 
-# np.isclose documentation:
-# https://numpy.org/doc/stable/reference/generated/numpy.isclose.html
-
-
-# @pytest.mark.skip(reason="Passes but slow")
 @pytest.mark.slow
 @pytest.mark.parametrize("number_of_initial_conditions", [1, 5])
 @pytest.mark.parametrize("num_sim_per_in_cond", [1, 5])
@@ -59,7 +82,8 @@ def test_abs_mag_leq_one(
     H,
     T,
     p_1,
-    seed,
+    mc_seed,
+    initial_cond_seed,
     small_world_society,
 ):
     t, M = small_world_society.opinion_dynamics(
@@ -69,7 +93,8 @@ def test_abs_mag_leq_one(
         H,
         T,
         p_1,
-        seed,
+        mc_seed,
+        initial_cond_seed,
     )
     for i in range(num_MC_steps):
         assert M[i] <= 1

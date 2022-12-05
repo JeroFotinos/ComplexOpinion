@@ -13,10 +13,15 @@ import pytest
 
 
 @pytest.fixture()
-def seed():
-    seed = np.random.randint(2 ** (4 * 7))
-    # seed = 2 ** ( 4 * 3 ) - 1  # quiero que sea siempre la misma
-    return seed
+def mc_seed():
+    mc_seed = np.random.randint(2 ** (4 * 7))
+    return mc_seed
+
+
+@pytest.fixture()
+def initial_cond_seed():
+    initial_cond_seed = np.random.randint(2 ** (4 * 7))
+    return initial_cond_seed
 
 
 @pytest.fixture()
@@ -71,13 +76,65 @@ def small_world_society():
 
 
 @pytest.fixture()
-def mahdi_simulation():
+def mahdi_simulation_1():
+    """
+    Provides the equivalent to M_vs_mcs__avg
+    of Mahdi's code (with the limitation of 
+    not being able to average over the same initial condition).
+    The parameters (in my notation) used in Mahdi's code to
+    generate this example were:
+    
+    number_of_initial_conditions = 1
+    num_sim_per_in_cond = 1
+    num_MC_steps = 10000
 
-    # abs_path_to_this_file = os.path.dirname(__file__)
-    # rel_path = "Mahdi_data"
-    # abs_file_path = os.path.join(abs_path_to_this_file, rel_path)
 
-    path = "/home/nate/Devel/complex_opinion/data/Mahdi_data"
+    H = 0.2
+    T = 0.2
+    p_1 = 1.0
+
+    mc_seed = 2 ** ( 4 * 3 ) - 1
+    initial_cond_seed = 12345
+
+    N = 500
+    k = 5
+    p = 0.01
+    G = nx.watts_strogatz_graph( N , k , p , seed = 896803 )
+    """
+
+    path = "/home/nate/Devel/2complex_opinion/data/Mahdi_data_1"
+    with open(path, "rb") as mh:
+        mahdi_simulation = joblib.load(mh)
+        return np.array(mahdi_simulation)
+
+@pytest.fixture()
+def mahdi_simulation_2():
+    """
+    Provides the equivalent to M_vs_mcs__avg
+    of Mahdi's code (with the limitation of 
+    not being able to average over the same initial condition).
+    The parameters (in my notation) used in Mahdi's code to
+    generate this example were:
+    
+    number_of_initial_conditions = 50
+    num_sim_per_in_cond = 1
+    num_MC_steps = 10000
+
+
+    H = 0.2
+    T = 0.2
+    p_1 = 1.0
+
+    mc_seed = 2 ** ( 4 * 3 ) - 1
+    initial_cond_seed = 12345
+
+    N = 500
+    k = 5
+    p = 0.01
+    G = nx.watts_strogatz_graph( N , k , p , seed = 896803 )
+    """
+
+    path = "/home/nate/Devel/2complex_opinion/data/Mahdi_data_2"
     with open(path, "rb") as mh:
         mahdi_simulation = joblib.load(mh)
         return np.array(mahdi_simulation)
