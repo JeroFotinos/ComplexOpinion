@@ -6,6 +6,7 @@ recursive-include complex_opinion *.py
 recursive-include complex_opinion *.f90
 recursive-include complex_opinion *.sh
 recursive-include examples *.ipynb
+recursive-include .github *
 
 include complex_opinion *.so
 exclude complex_opinion/f90opinion.so
