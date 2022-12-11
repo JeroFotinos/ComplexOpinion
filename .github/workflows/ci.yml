@@ -1,25 +1,25 @@
-name: complex_opinion
+# name: complex_opinion
 
-# este workflow se ejecuta para cada una de estas acciones que uno lista acá
-on:
-  - push
-  - pull_request
+# # este workflow se ejecuta para cada una de estas acciones que uno lista acá
+# on:
+#   - push
+#   - pull_request
 
-jobs:
-  build:
+# jobs:
+#   build:
 
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        python-version: [3.7,3.8,3.9,'3.10',3.11]
+#     runs-on: ubuntu-latest
+#     strategy:
+#       matrix:
+#         python-version: [3.7,3.8,3.9,'3.10',3.11]
 
-    steps:
-      - uses: actions/checkout@master
-      - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v2
-        with:
-          python-version: ${{ matrix.python-version}}
-      - name: Install tox
-        run: pip install tox tox-gh-actions
-      - name: Run the tests with tox
-        run: tox -r
+#     steps:
+#       - uses: actions/checkout@master
+#       - name: Set up Python ${{ matrix.python-version }}
+#         uses: actions/setup-python@v2
+#         with:
+#           python-version: ${{ matrix.python-version}}
+#       - name: Install tox
+#         run: pip install tox tox-gh-actions
+#       - name: Run the tests with tox
+#         run: tox -r
