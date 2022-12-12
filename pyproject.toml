@@ -25,6 +25,7 @@ version = "0.0.1a1"
 dependencies = [
     "numpy",
     "networkx",
+    "toml",
 ]
 # copy y warnings están built-in aparentemente (i.e. no hay que importarlas)
 
