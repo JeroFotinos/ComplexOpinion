@@ -1,4 +1,4 @@
-include 'random_module.f90'   ! For using Random Number Generator
+! include 'random_module.f90'   ! For using Random Number Generator
 
 !----------------------------------------------------------------
 module fpb
