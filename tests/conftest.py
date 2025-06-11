@@ -95,7 +95,7 @@ def mahdi_simulation_1():
     graph = nx.watts_strogatz_graph( number_of_nodes , k , p , seed = 896803 )
     """
 
-    path = "/home/nate/Devel/2complex_opinion/data/Mahdi_data_1"
+    path = "/home/nate/Devel/complex_opinion/data/Mahdi_data_1"
     with open(path, "rb") as mh:
         mahdi_simulation = joblib.load(mh)
         return np.array(mahdi_simulation)
@@ -128,7 +128,7 @@ def mahdi_simulation_2():
     graph = nx.watts_strogatz_graph( number_of_nodes , k , p , seed = 896803 )
     """
 
-    path = "/home/nate/Devel/2complex_opinion/data/Mahdi_data_2"
+    path = "/home/nate/Devel/complex_opinion/data/Mahdi_data_2"
     with open(path, "rb") as mh:
         mahdi_simulation = joblib.load(mh)
         return np.array(mahdi_simulation)
